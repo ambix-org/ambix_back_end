@@ -26,4 +26,36 @@ window.onSpotifyWebPlaybackSDKReady = () => {
   
     // Connect to the player!
     player.connect();
+    
+    // Play Button
+    playButton = document.getElementById('play')
+    playButton.addEventListener('click', () => {
+      player.resume().then(() => {
+        console.log('Resumed!');
+      });
+    })
+    
+    // Pause button
+    pauseButton = document.getElementById('pause')
+    pauseButton.addEventListener('click', () => {
+      player.pause().then(() => {
+        console.log('Paused!');
+      });
+    })
+
+    // Previous Track Button
+    previousButton = document.getElementById('previous')
+    previousButton.addEventListener('click', () => {
+      player.previousTrack().then(() => {
+        console.log('Set to previous track!');
+      });
+    })
+    
+    // Next Track Button
+    nextButton = document.getElementById('next')
+    nextButton.addEventListener('click', () => {
+      player.nextTrack().then(() => {
+        console.log('Skipped to next track!');
+      });
+    })
   };
