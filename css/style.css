@@ -5,3 +5,15 @@ i {
 #player {
     display: none;
 }
+
+.warning {
+    color: orange;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}

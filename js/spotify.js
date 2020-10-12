@@ -1,19 +1,66 @@
 'use strict';
 
+// Token Management
+
+const TOKEN = localStorage.getItem('token');
+
+const fieldset = document.getElementById('token-fieldset');
+let tokenStatus = document.createElement('p');
+let playerStatus = document.createElement('p');
+playerStatus.textContent = 'Player Initializing...';
+playerStatus.setAttribute('class', 'warning');
+
+fieldset.appendChild(tokenStatus);
+fieldset.appendChild(playerStatus);
+
+if (!TOKEN) {
+  tokenStatus.setAttribute('class', 'error');
+  tokenStatus.textContent = 'Please submit an access token...';
+} else {
+  tokenStatus.setAttribute('class', 'success');
+  tokenStatus.textContent = 'Token retrieved from storage';
+}
+
+const form = document.getElementById('token-form')
+form.addEventListener('submit', (event) => {
+  const token = event.target.token.value;
+  localStorage.setItem('token', token);
+  location.reload();
+})
+
+const clearTokenButton = document.getElementById('clear-token');
+clearTokenButton.addEventListener('click', () => {
+  localStorage.removeItem('token');
+  tokenStatus.textContent = 'Token cleared. Please submit token.'
+  tokenStatus.setAttribute('class', 'warning')
+})
+
+// Spotify Web Playback SDK
+
 let spotifyPlayer;
 
 window.onSpotifyWebPlaybackSDKReady = () => {
-  const token = 'BQAnsiyAPRij6q4we5143h0YDCPwpUMBk0ywUH06EOsdc11Wvq0nAVeZfv7lDyIsuV39L1nAh6BtArmIQWyLkXrG4bZekdQDVcEMh5qKIANRxBGsFZt2wpzXQ2YQ29UD5DMtnVFADaB1U6tMq_CREBVEqn58iz8vLyPhl2-mOmK2DW_0oT0LMek';
+  console.log(TOKEN)
   spotifyPlayer = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
-    getOAuthToken: cb => { cb(token); }
+    getOAuthToken: cb => { cb(TOKEN); }
   });
 
   // Error handling
-  spotifyPlayer.addListener('initialization_error', ({ message }) => { console.error(message); });
-  spotifyPlayer.addListener('authentication_error', ({ message }) => { console.error(message); });
-  spotifyPlayer.addListener('account_error', ({ message }) => { console.error(message); });
-  spotifyPlayer.addListener('playback_error', ({ message }) => { console.error(message); });
+  spotifyPlayer.addListener('initialization_error', ({ message }) => {
+    console.error('Initialization Error:', message);
+  });
+  spotifyPlayer.addListener('authentication_error', ({ message }) => {
+    console.error('Authentication Error:', message);
+    playerStatus.textContent = 'Authorization Failed. Token stale?';
+    playerStatus.setAttribute('class', 'error');
+  });
+  spotifyPlayer.addListener('account_error', ({ message }) => {
+    console.error('Account Error:', message);
+  });
+  spotifyPlayer.addListener('playback_error', ({ message }) => {
+    console.error('Playback Error:', message);
+  });
 
   // Playback status updates
   spotifyPlayer.addListener('player_state_changed', state => {
@@ -27,6 +74,8 @@ window.onSpotifyWebPlaybackSDKReady = () => {
   // Ready
   spotifyPlayer.addListener('ready', ({ device_id }) => {
     console.log('Ready with Device ID', device_id);
+    playerStatus.textContent = 'Spotify Web Playback SDK is ready';
+    playerStatus.setAttribute('class', 'success');
   });
 
   // Not Ready
@@ -38,6 +87,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
   spotifyPlayer.connect();
 };
 
+// Controls
 
 const playSpotifyButton = document.getElementById('play');
 playSpotifyButton.addEventListener('click', () => {
