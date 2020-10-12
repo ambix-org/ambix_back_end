@@ -42,6 +42,11 @@ fireplaceButton.addEventListener('click', () => {
   player.loadVideoById('K0pJRo0XU8s');
 });
 
+const cafeButton = document.getElementById('cafe');
+cafeButton.addEventListener('click', () => {
+  player.loadVideoById('gaGrHUekGrc')
+})
+
 const volumeRange = document.getElementById('volume-range-yt');
 volumeRange.addEventListener('change', () => {
   let newLevel = volumeRange.value;

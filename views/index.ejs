@@ -13,13 +13,9 @@
         <h2>Spotify Web Playback SDK</h2>
         <fieldset id="token-fieldset">
             <legend>Access Token</legend>
-            <form id="token-form">
-                <input type="text" placeholder="token" name="token">
-                <input type="submit" value="Submit Token">
-            </form>
             <div>
-                <a href="https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#authenticating-with-spotify" target="_blank"><button>Get Token</button></a>
-                <button id="clear-token">Clear Token</button>        
+                <a href="/spotify-signin"><button>Sign in to Spotify</button></a>
+                <button id="clear-token">Log Out</button>        
             </div>
         </fieldset>
         <fieldset>
@@ -32,7 +28,7 @@
             </div>
             <div>
                 <i class="fas fa-volume-down" id="volume-down-spotify"></i>
-                <input type="range" min="0" max="100" value="50" id="volume-range-spotify">
+                <input type="range" min="0" max="80" value="50" id="volume-range-spotify">
                 <i class="fas fa-volume-up" id="volume-up-spotify"></i>
             </div>
         </fieldset>
@@ -42,8 +38,9 @@
         <fieldset>
             <legend>YouTube Playback Controls</legend>
             <div id="player"></div>
-            <button id="rain">Rain Ambience</button>
-            <button id="fireplace">Fireplace Ambience</button>
+            <button id="rain">Rain</button>
+            <button id="fireplace">Fireplace</button>
+            <button id="cafe">Cafe</button>
             <div>
                 <i id="play-yt" class="fas fa-play"></i>
                 <i id="stop-yt" class="fas fa-stop"></i>              
