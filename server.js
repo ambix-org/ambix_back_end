@@ -5,15 +5,21 @@ const express = require('express');
 const superagent = require('superagent');
 const app = express();
 
+
 const PORT = process.env.PORT || 3001;
 const SPOTIFY_ID = process.env.SPOTIFY_ID;
 const SPOTIFY_SECRET = process.env.SPOTIFY_SECRET;
 
+app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.get('/', (request, response) => {
-  response.send('index.html')
+  response.render('index', {set_token :false});
 });
+
+app.post('/', (request, response) => {
+
+})
 
 app.get('/spotify-signin', (request, response) => {
   superagent.get('https://accounts.spotify.com/authorize')
@@ -49,8 +55,9 @@ app.get('/spotify-redirect', (request, response) => {
       const refreshToken = spotifyResponse.body.refresh_token;
       const duration = spotifyResponse.body.expires_in;
 
-      response.send({
-        access_toke: accessToken,
+      response.render('storage', {
+        set_token: true,
+        access_token: accessToken,
         refresh_token: refreshToken,
         expires_in: duration
       })

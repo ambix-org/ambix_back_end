@@ -21,18 +21,19 @@ if (!TOKEN) {
   tokenStatus.textContent = 'Token retrieved from storage';
 }
 
-const form = document.getElementById('token-form')
-form.addEventListener('submit', (event) => {
-  const token = event.target.token.value;
-  localStorage.setItem('token', token);
-  location.reload();
-})
+// const form = document.getElementById('token-form')
+// form.addEventListener('submit', (event) => {
+//   const token = event.target.token.value;
+//   localStorage.setItem('token', token);
+//   location.reload();
+// })
 
 const clearTokenButton = document.getElementById('clear-token');
 clearTokenButton.addEventListener('click', () => {
   localStorage.removeItem('token');
   tokenStatus.textContent = 'Token cleared. Please submit token.'
   tokenStatus.setAttribute('class', 'warning')
+  location.reload();
 })
 
 // Spotify Web Playback SDK
