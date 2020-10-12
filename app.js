@@ -28,7 +28,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     player.connect();
     
     // Play Button
-    playButton = document.getElementById('play')
+    const playButton = document.getElementById('play')
     playButton.addEventListener('click', () => {
       player.resume().then(() => {
         console.log('Resumed!');
@@ -36,7 +36,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     })
     
     // Pause button
-    pauseButton = document.getElementById('pause')
+    const pauseButton = document.getElementById('pause')
     pauseButton.addEventListener('click', () => {
       player.pause().then(() => {
         console.log('Paused!');
@@ -44,7 +44,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     })
 
     // Previous Track Button
-    previousButton = document.getElementById('previous')
+    const previousButton = document.getElementById('previous')
     previousButton.addEventListener('click', () => {
       player.previousTrack().then(() => {
         console.log('Set to previous track!');
@@ -52,10 +52,17 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     })
     
     // Next Track Button
-    nextButton = document.getElementById('next')
+    const nextButton = document.getElementById('next')
     nextButton.addEventListener('click', () => {
       player.nextTrack().then(() => {
         console.log('Skipped to next track!');
       });
     })
   };
+
+  const youTubeButton = document.getElementById('button')
+  youTubeButton.addEventListener('click', () => {
+    console.log('Playing Youtube video')
+    const iframe = document.getElementById('youtube')
+    iframe.playVideo()
+  })
