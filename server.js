@@ -9,7 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const SPOTIFY_ID = process.env.SPOTIFY_ID;
 const SPOTIFY_SECRET = process.env.SPOTIFY_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const HOME_URI = process.env.HOME_URI;
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -17,10 +18,6 @@ app.use(express.static('public'));
 app.get('/', (request, response) => {
   response.render('index', {set_token :false});
 });
-
-app.post('/', (request, response) => {
-
-})
 
 app.get('/spotify-signin', (request, response) => {
   superagent.get('https://accounts.spotify.com/authorize')
@@ -60,7 +57,8 @@ app.get('/spotify-redirect', (request, response) => {
         set_token: true,
         access_token: accessToken,
         refresh_token: refreshToken,
-        expires_in: duration
+        expires_in: duration,
+        redirect: HOME_URI
       })
     })
     .catch(error => console.error('Error while obtaining token pair:', error));
