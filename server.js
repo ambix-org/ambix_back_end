@@ -9,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const SPOTIFY_ID = process.env.SPOTIFY_ID;
 const SPOTIFY_SECRET = process.env.SPOTIFY_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -25,7 +26,7 @@ app.get('/spotify-signin', (request, response) => {
   superagent.get('https://accounts.spotify.com/authorize')
     .query({client_id: SPOTIFY_ID})
     .query({response_type: 'code'})
-    .query({redirect_uri: 'http://localhost:3000/spotify-redirect'})
+    .query({redirect_uri: REDIRECT_URI})
     .query({scope: 'streaming user-read-private user-read-email'})
     .then(result => {
       response.redirect(result.redirects[0])
@@ -46,7 +47,7 @@ app.get('/spotify-redirect', (request, response) => {
     .send({
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: 'http://localhost:3000/spotify-redirect',
+      redirect_uri: REDIRECT_URI,
       client_id: SPOTIFY_ID,
       client_secret: SPOTIFY_SECRET
     })
