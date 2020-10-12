@@ -1,23 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Ambix</title>
-  <script src="https://kit.fontawesome.com/070745bb89.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambix Proof of Life</title>
+    <script src="https://kit.fontawesome.com/070745bb89.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Ambix Proof of Life</h1>
-  <iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/LlKyGAGHc4c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <h2>Spotify Connect</h2>
-  <br>
-  <i class="fas fa-backward" id="previous"></i>
-  <i class="fas fa-play" id="play"></i>
-  <i class="fas fa-pause" id="pause"></i>
-  <i class="fas fa-forward" id="next"></i>
+    <h1>Ambix Proof of Life</h1>
+    <h2>YouTube iFrame Playback API</h2>
+    <div id="player"></div>
+    <button id="rain">Rain Ambience</button>
+    <button id="fireplace">Fireplace Ambience</button>
+    <i id="play-yt" class="fas fa-play"></i>
+    <i id="stop-yt" class="fas fa-stop"></i>
+    <br>
+    <i class="fas fa-volume-down" id="volume-down-yt"></i>
+    <input type="range" min="0" max="100" value="50" id="volume-range-yt">
+    <i class="fas fa-volume-up" id="volume-up-yt"></i>
+    
+    <h2>Spotify Connect</h2>
+    <i class="fas fa-backward" id="previous"></i>
+    <i class="fas fa-play" id="play"></i>
+    <i class="fas fa-pause" id="pause"></i>
+    <i class="fas fa-forward" id="next"></i>
+    <br>
+    <i class="fas fa-volume-down" id="volume-down-spotify"></i>
+    <input type="range" min="0" max="100" value="50" id="volume-range-spotify">
+    <i class="fas fa-volume-up" id="volume-up-spotify"></i>
 
-  <button id="button">Play YouTube</button>
-  
-  <script src="https://sdk.scdn.co/spotify-player.js"></script>
-  <script src="app.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script src="js/spotify.js"></script>
+    <script src="js/youtube.js"></script>
 </body>
 </html>
