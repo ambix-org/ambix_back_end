@@ -1,7 +1,7 @@
 'use strict';
 
 let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api"
+tag.src = 'https://www.youtube.com/iframe_api'
 
 let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -59,7 +59,7 @@ volumeUpButton.addEventListener('click', () => {
     console.log(`Volume set to ${currentLevel}`);
   } else {
     console.log('Volume maxxed out.');
-  };
+  }
 });
 
 const volumeDownButton = document.getElementById('volume-down-yt');
