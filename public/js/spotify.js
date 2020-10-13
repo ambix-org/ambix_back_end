@@ -21,13 +21,6 @@ if (!TOKEN) {
   tokenStatus.textContent = 'Token retrieved from storage';
 }
 
-// const form = document.getElementById('token-form')
-// form.addEventListener('submit', (event) => {
-//   const token = event.target.token.value;
-//   localStorage.setItem('token', token);
-//   location.reload();
-// })
-
 const clearTokenButton = document.getElementById('clear-token');
 clearTokenButton.addEventListener('click', () => {
   localStorage.removeItem('token');
@@ -43,7 +36,7 @@ let spotifyPlayer;
 window.onSpotifyWebPlaybackSDKReady = () => {
   console.log(TOKEN)
   spotifyPlayer = new Spotify.Player({
-    name: 'Web Playback SDK Quick Start Player',
+    name: 'Ambix',
     getOAuthToken: cb => { cb(TOKEN); }
   });
 

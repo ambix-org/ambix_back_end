@@ -5,7 +5,6 @@ const express = require('express');
 const superagent = require('superagent');
 const app = express();
 
-
 const PORT = process.env.PORT || 3001;
 const SPOTIFY_ID = process.env.SPOTIFY_ID;
 const SPOTIFY_SECRET = process.env.SPOTIFY_SECRET;
