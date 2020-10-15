@@ -11,13 +11,6 @@ const SPOTIFY_SECRET = process.env.SPOTIFY_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const HOME_URI = process.env.HOME_URI;
 
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-
-app.get('/', (request, response) => {
-  response.render('index', {set_token :false});
-});
-
 app.get('/spotify-signin', (request, response) => {
   superagent.get('https://accounts.spotify.com/authorize')
     .query({client_id: SPOTIFY_ID})
@@ -49,6 +42,7 @@ app.get('/spotify-redirect', (request, response) => {
     })
     .then(spotifyResponse => {
       const accessToken = spotifyResponse.body.access_token;
+      // TODO: Encrypt refresh token before sending it to the front end
       const refreshToken = spotifyResponse.body.refresh_token;
       const duration = spotifyResponse.body.expires_in;
 
@@ -62,6 +56,8 @@ app.get('/spotify-redirect', (request, response) => {
     })
     .catch(error => console.error('Error while obtaining token pair:', error));
 });
+
+// TODO: Add a route for refreshing a token
 
 app.listen(PORT, () => {
   console.log(`Listening on port:`, PORT);
