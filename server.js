@@ -1,5 +1,6 @@
 'use strict';
 
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
@@ -7,6 +8,7 @@ const express = require('express');
 const superagent = require('superagent');
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use(cookieParser());
 app.use(cors());
 
@@ -18,7 +20,7 @@ const HOME_URI = process.env.HOME_URI;
 
 app.get('/authorize', authorize);
 app.get('/redirect', handshake)
-app.get('/refresh', refresh)
+app.post('/refresh', refresh)
 
 function authorize(request, response) {
   superagent.get('https://accounts.spotify.com/authorize')
@@ -50,10 +52,8 @@ function handshake(request, response) {
       client_secret: SPOTIFY_SECRET
     })
     .then(spotifyResponse => {
-      const accessToken = spotifyResponse.body.access_token;
       // TODO: Encrypt refresh token before sending it to the front end
       const refreshToken = spotifyResponse.body.refresh_token;
-      response.cookie('accessToken', accessToken)
       response.cookie('refreshToken', refreshToken);
       response.status(200).redirect(HOME_URI);
     })
@@ -61,7 +61,7 @@ function handshake(request, response) {
 }
 
 function refresh(request, response) {
-  const refreshToken = request.body.refresh;
+  const refreshToken = request.body.refreshToken;
   const url = `https://accounts.spotify.com/api/token`;
 
   const buff = Buffer.from(`${SPOTIFY_ID}:${SPOTIFY_SECRET}`, 'utf-8');
@@ -76,8 +76,7 @@ function refresh(request, response) {
     })
     .then(spotifyResponse => {
       const accessToken = spotifyResponse.body.access_token;
-
-      response.status(200).json({ accessToken});
+      response.status(200).json({accessToken: accessToken});
     })
     .catch(error => {
       console.error('Error in authorization:\n', error);
