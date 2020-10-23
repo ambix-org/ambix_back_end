@@ -1,7 +1,6 @@
 'use strict';
 
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
 const express = require('express');
@@ -9,20 +8,19 @@ const superagent = require('superagent');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true}));
-app.use(cookieParser());
 app.use(cors());
 
 const PORT = process.env.PORT || 3001;
 const SPOTIFY_ID = process.env.SPOTIFY_ID;
 const SPOTIFY_SECRET = process.env.SPOTIFY_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
-const HOME_URI = process.env.HOME_URI;
+const RETURN_URI = process.env.RETURN_URI;
 
 app.get('/authorize', authorize);
-app.get('/redirect', handshake)
+app.get('/redirect', redirect)
 app.post('/refresh', refresh)
 
-function authorize(request, response) {
+function authorize(_, response) {
   superagent.get('https://accounts.spotify.com/authorize')
     .query({client_id: SPOTIFY_ID})
     .query({response_type: 'code'})
@@ -34,7 +32,7 @@ function authorize(request, response) {
     .catch(error => console.error('Error while obtaining authorization code:', error));
 }
 
-function handshake(request, response) {
+function redirect(request, response) {
   const code = request.query.code;
   const error = request.query.error;
 
@@ -52,10 +50,8 @@ function handshake(request, response) {
       client_secret: SPOTIFY_SECRET
     })
     .then(spotifyResponse => {
-      // TODO: Encrypt refresh token before sending it to the front end
       const refreshToken = spotifyResponse.body.refresh_token;
-      response.cookie('refreshToken', refreshToken);
-      response.status(200).redirect(HOME_URI);
+      response.status(200).redirect(`${RETURN_URI}?refresh=${refreshToken}`);
     })
     .catch(error => console.error('Error while obtaining token pair:', error));
 }
@@ -76,7 +72,7 @@ function refresh(request, response) {
     })
     .then(spotifyResponse => {
       const accessToken = spotifyResponse.body.access_token;
-      response.status(200).json({accessToken: accessToken});
+      response.status(200).json({accessToken});
     })
     .catch(error => {
       console.error('Error in authorization:\n', error);
