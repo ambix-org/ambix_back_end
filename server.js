@@ -1,13 +1,12 @@
 'use strict';
 
-const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true}));
 app.use(cors());
 
 const PORT = process.env.PORT || 3001;
